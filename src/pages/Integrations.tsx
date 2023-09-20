@@ -1,9 +1,10 @@
-import { ClientFactory } from "@TopologyHealth/smarterfhir";
+import { ClientFactory, SmartLaunchHandler } from "@TopologyHealth/smarterfhir";
 import { LAUNCH } from "@TopologyHealth/smarterfhir/lib/Client/ClientFactory";
 import { useContext, useEffect, useRef } from "react";
 import { SmarterFhirContext } from "../App";
 import { Group, Stack, Title, Divider, Text, Button } from "@mantine/core";
 import { Document } from "@medplum/react";
+import { EMR } from "@TopologyHealth/smarterfhir/lib/Launcher/SmartLaunchHandler";
 
 export const EpicTag = () => {
   return <Text style={{
@@ -19,9 +20,8 @@ async function startStandaloneLaunch() {
   console.log("Launched");
   try {
     const emrClientID = "86e74d43-2046-492e-b460-73c31fa7289d"
-    const redirect = "http://localhost:3000/integrations";
-    const standaloneUrl = `https://fhir.epic.com/interconnect-fhir-oauth/oauth2/authorize?response_type=code&redirect_uri=${redirect}&client_id=${emrClientID}&state=TESTSTATE&aud=https%3A%2F%2Ffhir.epic.com%2Finterconnect-fhir-oauth%2Fapi%2Ffhir%2FR4`
-    window.location.href = standaloneUrl;
+    const smartLaunchHandler = new SmartLaunchHandler(emrClientID)
+    smartLaunchHandler.authorizeStandalone(EMR.EPIC)
   }
   catch (e) {
     if (e instanceof Error) {
@@ -42,12 +42,14 @@ export const Integrations = () => {
 
     try {
       const clientFactory = new ClientFactory();
-      clientFactory.createEMRClient(LAUNCH.STANDALONE, "http://localhost:3000/integrations").then(client => {
+      clientFactory.createEMRClient(LAUNCH.STANDALONE).then(client => {
         setClient(client);
         client.getPatientRead().then(v => console.log(`Successfully authenticated with Epic for patient ${v}`));
       })
     }
-    catch {}
+    catch (e) {
+      console.error(e);
+    }
 
     return () => { cancelled = true; }
   }, []);

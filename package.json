@@ -2,7 +2,7 @@
   "name": "foomedical",
   "version": "2.0.29",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host --force",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix src",
@@ -57,6 +57,6 @@
     ]
   },
   "dependencies": {
-    "@TopologyHealth/smarterfhir": "git@github.com:TopologyHealth/SMARTerFHIR.git#fc8760d881f31e831acab230c086dcfbe5ff282d"
+    "@TopologyHealth/smarterfhir": "git@github.com:TopologyHealth/SMARTerFHIR.git#912c81cae613dce53d3e00a1de018efa85583a42"
   }
 }
