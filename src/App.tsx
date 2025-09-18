@@ -26,7 +26,7 @@ export function App(): JSX.Element | null {
     return (
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="signin" element={<RegisterPage />} />
+        <Route path="signin" element={<SignInPage />} />
         <Route path="register" element={<RegisterPage />} />
         <Route path="*" element={<Navigate replace to="/" />} />
       </Routes>

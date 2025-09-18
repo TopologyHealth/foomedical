@@ -15,7 +15,7 @@ export const EpicTag = () => {
 }
 
 async function startStandaloneLaunch() {
-  const emrClientID = "86e74d43-2046-492e-b460-73c31fa7289d"
+  const emrClientID = "dbfb1ce8-73f1-49c8-9f5b-5012aa7cd145"
   const emrType: EMR = EMR.EPIC
   console.log("Launched");
   const smartLaunchHandler = new SmartLaunchHandler(emrClientID)
@@ -49,7 +49,7 @@ export const Integrations = () => {
           setClient(client);
           client.getPatientRead().then(v => console.log(`Successfully authenticated with Epic for patient ${v}`));
         })
-        .catch(reason => cancelled  = true)
+        .catch(reason => cancelled = true)
     }
     catch { }
 
