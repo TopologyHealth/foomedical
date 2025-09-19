@@ -9,6 +9,17 @@ export const sideMenu = {
   title: 'Health Record',
   menu: [
     { name: 'Lab Results', href: '/health-record/lab-results' },
+    {
+      name: 'Intake Forms', href: '/health-record/intake-forms',
+      subMenu: Object.values({
+        'subMenuItems': {
+          'title': 'New Form', 'id': 'new-form',
+        }
+      }).map(({ title, id }) => ({
+        name: title,
+        href: `/health-record/intake-forms/${id}`,
+      })),
+    },
     { name: 'Medications', href: '/health-record/medications' },
     {
       name: 'Vitals',

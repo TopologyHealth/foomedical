@@ -1,21 +1,20 @@
 import { Box, Group, Stack, Text, Title, useMantineTheme } from '@mantine/core';
-import { formatDate, getReferenceString } from '@medplum/core';
+import { formatDate } from '@medplum/core';
 import { BundleEntry, DiagnosticReport, Patient } from '@medplum/fhirtypes';
 import { useMedplum } from '@medplum/react';
 import { IconChevronRight } from '@tabler/icons-react';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SmartClientContext, useSmartClient } from '../../App';
+import { useSmartClient } from '../../App';
 import { InfoButton } from '../../components/InfoButton';
 import { InfoSection } from '../../components/InfoSection';
 
-export function LabResults(): JSX.Element {
+export function IntakeForms(): JSX.Element {
   const theme = useMantineTheme();
   const navigate = useNavigate();
   const medplum = useMedplum();
   const patient = medplum.getProfile() as Patient;
-  const reports = medplum.searchResources('DiagnosticReport', 'subject=' + getReferenceString(patient)).read();
-  const { smartClient, setSmartClient } = useSmartClient()
+  const { smartClient } = useSmartClient()
   const [epicReports, setEpicReports] = useState<DiagnosticReport[]>([]);
 
   useEffect(() => {
@@ -29,20 +28,9 @@ export function LabResults(): JSX.Element {
 
   return (
     <Box p="xl">
-      <Title mb="lg">Lab Results</Title>
-      <InfoSection title="Lab Results">
+      <Title mb="lg">Intake Forms</Title>
+      <InfoSection title="Intake Forms">
         <Stack spacing={0}>
-          {reports.map((report) => (
-            <InfoButton key={report.id} onClick={() => navigate(`./${report.id}`)}>
-              <div>
-                <Text fw={500} mb={4}>
-                  {formatDate(report.meta?.lastUpdated as string)}
-                </Text>
-                <Text>{report.code?.text}</Text>
-              </div>
-              <IconChevronRight color={theme.colors.gray[5]} />
-            </InfoButton>
-          ))}
           {epicReports.map((report, idx) => (
             <InfoButton key={report.id ?? idx} onClick={() => navigate(`./epic/${report.id}`)}>
               <div>

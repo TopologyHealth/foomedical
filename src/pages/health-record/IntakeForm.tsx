@@ -3,19 +3,21 @@ import { formatDate, getReferenceString } from '@medplum/core';
 import { BundleEntry, DiagnosticReport, Patient } from '@medplum/fhirtypes';
 import { useMedplum } from '@medplum/react';
 import { IconChevronRight } from '@tabler/icons-react';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SmartClientContext, useSmartClient } from '../../App';
+import { useSmartClient } from '../../App';
 import { InfoButton } from '../../components/InfoButton';
 import { InfoSection } from '../../components/InfoSection';
+import { SmartClientContext } from '../../App';
 
-export function LabResults(): JSX.Element {
+export function IntakeForm(): JSX.Element {
   const theme = useMantineTheme();
   const navigate = useNavigate();
   const medplum = useMedplum();
   const patient = medplum.getProfile() as Patient;
   const reports = medplum.searchResources('DiagnosticReport', 'subject=' + getReferenceString(patient)).read();
-  const { smartClient, setSmartClient } = useSmartClient()
+
+  const { smartClient } = useSmartClient()
   const [epicReports, setEpicReports] = useState<DiagnosticReport[]>([]);
 
   useEffect(() => {
@@ -29,8 +31,8 @@ export function LabResults(): JSX.Element {
 
   return (
     <Box p="xl">
-      <Title mb="lg">Lab Results</Title>
-      <InfoSection title="Lab Results">
+      <Title mb="lg">Intake Form</Title>
+      <InfoSection title="Intake Form">
         <Stack spacing={0}>
           {reports.map((report) => (
             <InfoButton key={report.id} onClick={() => navigate(`./${report.id}`)}>

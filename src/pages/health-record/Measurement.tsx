@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Group, Modal, NumberInput, Stack, Table, Title, Text } from '@mantine/core';
+import { Alert, Box, Button, Group, Modal, NumberInput, Stack, Table, Title } from '@mantine/core';
 import { createReference, formatDate, formatDateTime, formatObservationValue, getReferenceString } from '@medplum/core';
 import { BundleEntry, Observation, ObservationComponent, Patient } from '@medplum/fhirtypes';
 import { Document, Form, useMedplum } from '@medplum/react';
@@ -6,8 +6,8 @@ import { IconAlertCircle } from '@tabler/icons-react';
 import { ChartData, ChartDataset } from 'chart.js';
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { SmartClientContext } from '../../App';
 import { LineChart } from '../../components/LineChart';
-import { SmarterFhirContext } from '../../App';
 import { EpicTag } from '../Integrations';
 
 interface ObservationType {
@@ -135,7 +135,7 @@ export function Measurement(): JSX.Element | null {
   const [observations, setObservations] = useState(medplum
     .searchResources('Observation', `code=${code}&patient=${getReferenceString(patient)}`)
     .read());
-  const { client, setClient } = useContext(SmarterFhirContext);
+  const { client, setClient } = useContext(SmartClientContext);
   const [epicObservations, setEpicObservations] = useState<Observation[]>([]);
 
   useEffect(() => {

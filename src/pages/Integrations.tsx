@@ -2,7 +2,7 @@ import { ClientFactory, EMR, LAUNCH, SmartLaunchHandler } from "@TopologyHealth/
 import { Button, Divider, Group, Stack, Text, Title } from "@mantine/core";
 import { Document } from "@medplum/react";
 import { useContext, useEffect, useRef } from "react";
-import { SmarterFhirContext } from "../App";
+import { SmartClientContext, useSmartClient } from "../App";
 
 export const EpicTag = () => {
   return <Text style={{
@@ -34,27 +34,27 @@ async function startStandaloneLaunch() {
 
 export const Integrations = () => {
   const authCheckedRef = useRef(false);
-  const { client, setClient } = useContext(SmarterFhirContext);
+  const { smartClient, setSmartClient } = useSmartClient()
 
-  useEffect(() => {
-    if (authCheckedRef.current) return;
-    authCheckedRef.current = true;
-    console.log("Running mount effect");
-    let cancelled = false;
+  // useEffect(() => {
+  //   if (authCheckedRef.current) return;
+  //   authCheckedRef.current = true;
+  //   console.log("Running mount effect");
+  //   let cancelled = false;
 
-    try {
-      const clientFactory = new ClientFactory();
-      clientFactory.createEMRClient(LAUNCH.STANDALONE)
-        .then(client => {
-          setClient(client);
-          client.getPatientRead().then(v => console.log(`Successfully authenticated with Epic for patient ${v}`));
-        })
-        .catch(reason => cancelled = true)
-    }
-    catch { }
+  //   try {
+  //     const clientFactory = new ClientFactory();
+  //     clientFactory.createEMRClient(LAUNCH.STANDALONE)
+  //       .then(client => {
+  //         setClient(client);
+  //         client.getPatientRead().then(v => console.log(`Successfully authenticated with Epic for patient ${v}`));
+  //       })
+  //       .catch(reason => cancelled = true)
+  //   }
+  //   catch { }
 
-    return () => { cancelled = true; }
-  }, []);
+  //   return () => { cancelled = true; }
+  // }, []);
 
   return <div>
     <Document width={800}>
@@ -65,8 +65,8 @@ export const Integrations = () => {
           <Text size="sm" weight={500} m="sm">
             Epic
           </Text>
-          <Button compact my="sm" onClick={() => client !== null ? setClient(null) : startStandaloneLaunch()}>
-            {client !== null ? "Disconnect" : "Connect"}
+          <Button compact my="sm" onClick={() => smartClient !== undefined? setSmartClient(undefined) : startStandaloneLaunch()}>
+            {smartClient !== undefined ? "Disconnect" : "Connect"}
           </Button>
         </Group>
       </Stack>

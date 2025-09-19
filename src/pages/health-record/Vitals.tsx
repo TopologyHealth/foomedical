@@ -1,16 +1,16 @@
-import { Table, Title, Text } from '@mantine/core';
+import { Table, Title } from '@mantine/core';
 import { formatDate, formatObservationValue, getReferenceString } from '@medplum/core';
 import { BundleEntry, Observation, Patient } from '@medplum/fhirtypes';
 import { Document, useMedplum } from '@medplum/react';
 import { useContext, useEffect, useState } from 'react';
-import { SmarterFhirContext } from '../../App';
+import { SmartClientContext } from '../../App';
 import { EpicTag } from '../Integrations';
 
 export function Vitals(): JSX.Element {
   const medplum = useMedplum();
   const patient = medplum.getProfile() as Patient;
   const observations = medplum.searchResources('Observation', 'patient=' + getReferenceString(patient)).read();
-  const { client, setClient } = useContext(SmarterFhirContext);
+  const { client, setClient } = useContext(SmartClientContext);
   const [epicObservations, setEpicObservations] = useState<Observation[]>([]);
 
   useEffect(() => {

@@ -21,6 +21,7 @@ import { Messages } from './pages/MessagesPage';
 import { ObservationPage } from './pages/ObservationPage';
 import { SignOutPage } from './pages/SignOutPage';
 import { Integrations } from './pages/Integrations';
+import { IntakeForms } from './pages/health-record/IntakeForms';
 
 export function Router(): JSX.Element {
   return (
@@ -28,7 +29,8 @@ export function Router(): JSX.Element {
       <Route path="/" element={<HomePage />} />
       <Route path="messages/*" element={<Messages />} />
       <Route path="health-record/*" element={<HealthRecord />}>
-        <Route index element={<Navigate replace to="/health-record/lab-results" />} />
+        <Route index element={<Navigate replace to="/health-record/intake-forms" />} />
+        <Route path="intake-forms" element={<IntakeForms />} />
         <Route path="lab-results/*" element={<LabResults />} />
         <Route path="lab-results/epic/:resultId" element={<LabResult epic />} />
         <Route path="lab-results/:resultId" element={<LabResult />} />

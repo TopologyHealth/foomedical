@@ -1,13 +1,13 @@
 import { Box, Group, Stack, Text, Title, useMantineTheme } from '@mantine/core';
-import { formatDate, getReferenceString } from '@medplum/core';
+import { getReferenceString } from '@medplum/core';
 import { BundleEntry, MedicationRequest, Patient } from '@medplum/fhirtypes';
 import { useMedplum } from '@medplum/react';
 import { IconChevronRight } from '@tabler/icons-react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { SmartClientContext } from '../../App';
 import { InfoButton } from '../../components/InfoButton';
 import { InfoSection } from '../../components/InfoSection';
-import { useContext, useEffect, useState } from 'react';
-import { SmarterFhirContext } from '../../App';
 import { EpicTag } from '../Integrations';
 
 export function Medications(): JSX.Element {
@@ -16,7 +16,7 @@ export function Medications(): JSX.Element {
   const medplum = useMedplum();
   const patient = medplum.getProfile() as Patient;
   const medications = medplum.searchResources('MedicationRequest', 'patient=' + getReferenceString(patient)).read();
-  const { client, setClient } = useContext(SmarterFhirContext);
+  const { client, setClient } = useContext(SmartClientContext);
   const [epicReports, setEpicReports] = useState<MedicationRequest[]>([]);
 
   useEffect(() => {

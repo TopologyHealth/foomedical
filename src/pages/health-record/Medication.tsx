@@ -4,15 +4,15 @@ import { HumanName, MedicationRequest } from '@medplum/fhirtypes';
 import { ResourceTable, useMedplum } from '@medplum/react';
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { SmartClientContext } from '../../App';
 import { InfoSection } from '../../components/InfoSection';
-import { SmarterFhirContext } from '../../App';
 
 export function Medication({ epic }: { epic?: boolean }): JSX.Element {
   const medplum = useMedplum();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const { medicationId = '' } = useParams();
   const [med, setMed] = useState<MedicationRequest>();
-  const { client, setClient } = useContext(SmarterFhirContext);
+  const { client, setClient } = useContext(SmartClientContext);
 
   useEffect(() => {
     if (epic && client) {
